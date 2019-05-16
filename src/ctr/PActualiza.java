@@ -33,6 +33,7 @@ public class PActualiza {
         
         System.out.println("Ahora compararemos: ");
         v.comprobarVersion();
+        System.out.println("wjdghwajd");
 
 //        String url = "https://github.com/JohnnyGG98/PF-Restaurante-M3A/releases/latest";
 //        String nombre = "is.txt";
