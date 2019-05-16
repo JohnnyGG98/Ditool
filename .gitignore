@@ -1,5 +1,6 @@
 /build/
 /nbproject/private/
+/nbproject/
 #Proyecto ejecutable
 /dist
 #Carpeta donde se guarda lo que descargo
