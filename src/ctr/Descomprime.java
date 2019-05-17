@@ -2,6 +2,8 @@ package ctr;
 
 import java.io.File;
 import javax.swing.JOptionPane;
+import md.Constantes;
+import md.Version;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
@@ -11,21 +13,19 @@ import net.lingala.zip4j.exception.ZipException;
  */
 public class Descomprime {
 
-    private final String carpeta;
-    private final String nombre;
+    private final Version version;
     private boolean segIntento = false;
 
-    public Descomprime(String salida, String archivo) {
-        this.carpeta = salida;
-        this.nombre = archivo;
+    public Descomprime(Version version) {
+        this.version = version;
     }
 
     public void descomprime() {
-        File zipFile = new File(carpeta + nombre);
+        File zipFile = new File(version.getNombre());
         ZipFile zf;
         try {
             zf = new ZipFile(zipFile);
-            zf.extractAll(carpeta);
+            zf.extractAll(Constantes.getDir());
             eliminarZip(zipFile);
         } catch (ZipException ex) {
             System.out.println("No salio bien debemos informarlo: " + ex.getMessage());
@@ -50,7 +50,8 @@ public class Descomprime {
         JOptionPane.showMessageDialog(null, "Tuvimos incovenientes la instalar el sistema, \n"
                 + "debera hacerlo de forma manual. \n"
                 + "Indicaciones: \n"
-                + "1. Debera extraer el .zip que se encuentra en " + carpeta + "\n"
+                + "1. Debera extraer el .zip que se encuentra en \n"
+                + "" + Constantes.getDir() + "\n"
                 + "2. Despues de extraer el zip debera eliminarlo.");
     }
 
@@ -59,7 +60,7 @@ public class Descomprime {
             int r = JOptionPane.showConfirmDialog(null, "Actualizamos todo de forma correcta.\n "
                     + "¿Desea abrir el programa?");
             if (r == JOptionPane.YES_OPTION) {
-                CMD.ejecutarJAR(nombre);
+                CMD.ejecutarJAR(version.getNombreSinExtension());
             }
         }
     }

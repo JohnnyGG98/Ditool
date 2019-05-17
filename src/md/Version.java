@@ -1,5 +1,8 @@
 package md;
 
+import ctr.CMD;
+import ctr.Descarga;
+import ctr.Descomprime;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -79,6 +82,14 @@ public class Version {
         this.fecha = fecha;
     }
 
+    public String getNombreSinExtension() {
+        return nombre.substring(0, nombre.lastIndexOf("."));
+    }
+
+    public String getNombreSinExtension(String nombre) {
+        return nombre.substring(0, nombre.lastIndexOf("."));
+    }
+
     public void comprobarVersion() {
         File pv = new File(Constantes.V_DIR);
         Properties p = new Properties();
@@ -86,14 +97,16 @@ public class Version {
             if (comprobarRequisitos(p, pv)) {
                 if (compara(p, pv)) {
                     JOptionPane.showMessageDialog(null, "Usted tiene la ultima version!");
+                    CMD.ejecutarJAR(getNombreSinExtension());
                 } else {
                     //Aqui descargamos la versio nueva
-
                     crearVersion();
                 }
+            } else {
+                //Si el archivo de version no contiene todo lo necesario se descarga
+                crearVersion();
             }
         } else {
-            //Aqui debemos decargar el proyecto
             crearVersion();
         }
 
@@ -102,12 +115,12 @@ public class Version {
     public void crearVersion() {
         File pv = new File(Constantes.V_DIR);
         Properties p = new Properties();
-        if (!pv.exists()) {
+        Descarga descarga = new Descarga(this);
+        if (descarga.descargar()) {
+            borrarVersionAnterior(p, pv);
             crearPropiedades(p, pv);
-        } else {
-            if (pv.delete()) {
-                crearPropiedades(p, pv);
-            }
+            Descomprime uzip = new Descomprime(this);
+            uzip.descomprime();
         }
     }
 
@@ -117,12 +130,8 @@ public class Version {
         String pVersion = "";
         try {
             p.load(new FileReader(bd));
-            pNombre = p.getProperty(Constantes.BD_IP);
-            pVersion = p.getProperty(Constantes.BD_PUERTO);
-
-            System.out.println("ip = " + p.getProperty(Constantes.BD_IP));
-            System.out.println("database = " + p.getProperty(Constantes.BD_DATABASE));
-            System.out.println("port = " + p.getProperty(Constantes.BD_PUERTO));
+            pNombre = p.getProperty(Constantes.V_NOMBRE);
+            pVersion = p.getProperty(Constantes.V_VERSION);
         } catch (IOException e) {
             System.out.println("No pudimos leer las propiedades de version: " + e.getMessage());
         }
@@ -147,7 +156,7 @@ public class Version {
             p.setProperty(Constantes.V_VERSION, version);
             p.setProperty(Constantes.V_FECHA, fecha.toString());
             p.setProperty(Constantes.V_NOTAS, notas);
-            p.store(fo, "Descripcion de la version del sistema.");
+            p.store(fo, "Descripcion de la version del sistema: ");
             creado = true;
         } catch (FileNotFoundException e) {
             System.out.println("No podemos escribir el archivo: " + e.getMessage());
@@ -182,9 +191,24 @@ public class Version {
             }
 
         } catch (IOException e) {
-            System.out.println("Divertida: " + e.getMessage());
+            System.out.println("Error al comprobar si tiene todas las constantes:" + e.getMessage());
         }
         return todas;
+    }
+
+    private void borrarVersionAnterior(Properties p, File bd) {
+        try {
+            p.load(new FileReader(bd));
+            String pNombre = getNombreSinExtension(p.getProperty(Constantes.V_NOMBRE));
+            if (pNombre.contains(nombre)) {
+                File va = new File(pNombre + ".jar");
+                if (va.exists()) {
+                    va.delete();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("No se pudo encontrar la propiedad de nombre: " + e.getMessage());
+        }
     }
 
 }

@@ -13,19 +13,15 @@ public class CMD {
     public static void ejecutarJAR(String nombre) {
         //Corremos el programa desde consola
         try {
-            String cmd = "nuevo/" + nombre + "/" + nombre + ".jar";
-            //String d = "../pruebas-jar/dist/Ejemplo-PF.jar";
+            String cmd = nombre + ".jar";
             File jar = new File(cmd);
-            if (jar.exists()) {
-                String cmda = "java -jar " + cmd;
-                Runtime.getRuntime().exec(cmda);
-                System.out.println("Pasamos: ");
-            } else {
-                JOptionPane.showMessageDialog(null, "Permisos denegados \n"
-                        + "ejecute el programa manualmente.");
-            }
+            System.out.println(cmd);
+            String cmda = "java -jar " + jar.getAbsolutePath();
+            System.out.println(cmda);
+            Runtime.getRuntime().exec(cmda);
         } catch (IOException e) {
-            System.out.println("No se pudo ejecutar: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Permisos denegados \n"
+                    + "ejecute el programa manualmente.");
         }
 
     }

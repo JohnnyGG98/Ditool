@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import javax.swing.JOptionPane;
+import md.Version;
 
 /**
  *
@@ -15,19 +16,15 @@ import javax.swing.JOptionPane;
  */
 public class Descarga {
 
-    private final String url;
-    private final String nombre;
-    private final String carpeta;
+    private final Version version;
     private boolean todoBien;
 
-    public Descarga(String url, String nombre, String carpeta) {
-        this.url = url;
-        this.nombre = nombre;
-        this.carpeta = carpeta;
+    public Descarga(Version version) {
+        this.version = version;
     }
 
-    public void descargar() {
-        comprobarCarpeta();
+    public boolean descargar() {
+        //comprobarCarpeta();
         descargando();
         if (todoBien) {
             JOptionPane.showMessageDialog(null, "Descargamos todo correctamente, \n"
@@ -39,24 +36,16 @@ public class Descarga {
                 descargar();
             }
         }
-    }
-
-    private void comprobarCarpeta() {
-        File dir = new File(nombre);
-        if (!dir.exists()) {
-            if (dir.mkdir()) {
-                System.out.println("Creamos la carpeta");
-            }
-        }
+        return todoBien;
     }
 
     private void descargando() {
-        File fil = new File(carpeta + nombre);
+        File fil = new File(version.getNombre());
         try {
-            URLConnection conn = new URL(url).openConnection();
+            URLConnection conn = new URL(version.getUrl()).openConnection();
             conn.connect();
             todoBien = false;
-            JOptionPane.showMessageDialog(null, "La descarga va a comenzar ...");
+            JOptionPane.showMessageDialog(null, "La descarga va a comenzar...");
 
             InputStream i = conn.getInputStream();
             OutputStream o = new FileOutputStream(fil);
@@ -64,12 +53,10 @@ public class Descarga {
             int b = 0;
             while (b != -1) {
                 b = i.read();
-                System.out.println("Descagando: " + b);
                 if (b != -1) {
                     o.write(b);
                 }
             }
-            System.out.println("");
             System.out.println("Terminamos de descargar");
 
             o.close();

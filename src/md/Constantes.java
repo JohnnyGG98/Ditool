@@ -1,5 +1,7 @@
 package md;
 
+import java.io.File;
+
 /**
  *
  * @author alumno
@@ -15,4 +17,11 @@ public class Constantes {
             V_NOTAS = "Notas", V_FECHA = "Fecha";
     //Direccion de las propiedades de version  
     public static final String V_DIR = "version.properties";
+
+    //Obtenemos la direccion 
+    public static String getDir() {
+        File dir = new File("./");
+        return dir.getAbsolutePath();
+    }
+
 }
