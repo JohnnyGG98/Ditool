@@ -38,6 +38,15 @@ public class PActualiza {
         v = conecta.consultarUltimaVersion();
 
         if (v != null) {
+            System.out.println("--------------");
+            System.out.println(v.getId());
+            System.out.println(v.getFecha());
+            System.out.println(v.getNombre());
+            System.out.println(v.getNotas());
+            System.out.println(v.getUrl());
+            System.out.println(v.getUsername());
+            System.out.println(v.getVersion());
+            System.out.println("--------------");
             VtnCTR ctrVtn = new VtnCTR(v, vtnPrin);
             ctrVtn.iniciar();
         } else {
