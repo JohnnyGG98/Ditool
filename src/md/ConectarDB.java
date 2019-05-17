@@ -121,10 +121,11 @@ public class ConectarDB {
         boolean creado = false;
         try {
             FileOutputStream fo = new FileOutputStream(bd);
-            p.setProperty("ip", "Escribirmos el fichero nuevamente");
-            p.setProperty("database", "Este es un super valor");
-            p.setProperty("port", "Este es un super valor");
-            p.store(fo, "Propiedades de la base de datos");
+            p.setProperty("ip", "35.193.226.187");
+            p.setProperty("database", "BDinsta");
+            p.setProperty("port", "5432");
+            p.store(fo, "Propiedades de la base de datos: \n"
+                    + "Modifiquelos para que se pueda conectar a otra base de datos: ");
             creado = true;
         } catch (FileNotFoundException e) {
             System.out.println("No podemos escribir el archivo: " + e.getMessage());
@@ -132,6 +133,45 @@ public class ConectarDB {
             System.out.println("No se pudo guardar el properties: " + ex.getMessage());
         }
         return creado;
+    }
+
+    //Consultamos la ultima version de la base de datos:
+    public Version consultarUltimaVersion() {
+        Version v = null;
+        String sql = "SELECT \n"
+                + "id_version, \n"
+                + "usu_username, \n"
+                + "version,\n"
+                + "nombre, \n"
+                + "url, \n"
+                + "notas, \n"
+                + "fecha\n"
+                + "FROM public.\"Versiones\"\n"
+                + "WHERE version_activa = true\n"
+                + "ORDER BY id_version DESC limit 1;";
+        PreparedStatement ps = getPs(sql);
+        if (ps != null) {
+            ResultSet rs = sql(ps);
+            if (rs != null) {
+                try {
+                    v = new Version();
+                    while (rs.next()) {
+                        v.setId(rs.getInt(1));
+                        v.setUsername(rs.getString(2));
+                        v.setVersion(rs.getString(3));
+                        v.setNombre(rs.getString(4));
+                        v.setUrl(rs.getString(5));
+                        v.setNotas(rs.getString(6));
+                        v.setFecha(rs.getTimestamp(7).toLocalDateTime());
+                    }
+                } catch (SQLException e) {
+                    System.out.println("No se pudo consultar la version: " + e.getMessage());
+                }
+            }
+        }
+        //Cerramos la conexion que abrimos
+        cerrar(ps);
+        return v;
     }
 
 }

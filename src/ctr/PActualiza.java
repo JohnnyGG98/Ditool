@@ -1,16 +1,11 @@
 package ctr;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
 import md.ConectarDB;
 import md.Constantes;
 import md.Version;
+import vtn.VtnPrincipal;
 
 /**
  *
@@ -22,7 +17,13 @@ public class PActualiza {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //ConectarDB conecta = new ConectarDB("johnny", "DEV");
+        if (!iniciaEstilo("Windows")) {
+            iniciaEstilo("Nimbus");
+        }
+
+        VtnPrincipal vtnPrin = new VtnPrincipal();
+        ConectarDB conecta = new ConectarDB("VERSION", "AZUL");
+
         System.out.println("Dirt: " + Constantes.getDir());
         Version v = new Version();
         v.setFecha(LocalDateTime.now());
@@ -32,12 +33,35 @@ public class PActualiza {
         v.setNotas("En esta version corregimos el error 1200.");
         v.setUrl("https://github.com/JohnnyGG98/PF-Restaurante-M3A/releases/download/Beta/RestauranteM3A.zip");
         v.setUsername("Master");
-        v.setVersion("10");
+        v.setVersion("1");
 
-        System.out.println("Ahora compararemos: ");
-        v.comprobarVersion();
-        System.out.println("--------------");
+        v = conecta.consultarUltimaVersion();
 
+        if (v != null) {
+            VtnCTR ctrVtn = new VtnCTR(v, vtnPrin);
+            ctrVtn.iniciar();
+        } else {
+            JOptionPane.showMessageDialog(vtnPrin, "Posiblemente no tengamos acceso a internet. \n"
+                    + "Verifique su conexion e intentelo de nuevo.");
+        }
+
+        System.exit(0);
+    }
+
+    public static boolean iniciaEstilo(String estilo) {
+        boolean encontrado = false;
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if (estilo.equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    encontrado = true;
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            System.out.println("No enconramos ninugn LOOK AND FIELD " + ex.getMessage());
+        }
+        return encontrado;
     }
 
 }
