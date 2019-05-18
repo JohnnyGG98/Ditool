@@ -20,7 +20,7 @@ public class PActualiza {
         }
 
         VtnPrincipal vtnPrin = new VtnPrincipal();
-        vtnPrin.setTitle("Version:");
+        vtnPrin.setTitle("Ditool | Version instalada: ");
         ConectarDB conecta = new ConectarDB("VERSION", "AZUL");
 
         Version v = conecta.consultarUltimaVersion();
