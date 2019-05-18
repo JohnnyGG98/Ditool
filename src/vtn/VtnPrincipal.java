@@ -27,6 +27,10 @@ public class VtnPrincipal extends javax.swing.JFrame {
         return lblVersion;
     }
 
+    public JLabel getLblFondo() {
+        return lblFondo;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,7 +46,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lblFondo = new javax.swing.JLabel();
         lblNombre = new javax.swing.JLabel();
         lblVersion = new javax.swing.JLabel();
         lblAutor = new javax.swing.JLabel();
@@ -69,9 +73,10 @@ public class VtnPrincipal extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Autor:");
 
-        jLabel6.setFont(new java.awt.Font("Ubuntu", 0, 36)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("...");
+        lblFondo.setFont(new java.awt.Font("Ubuntu", 0, 36)); // NOI18N
+        lblFondo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFondo.setText("...");
+        lblFondo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         lblNombre.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
 
@@ -102,7 +107,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
                                     .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblFondo, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 14, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -125,7 +130,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                .addComponent(lblFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -149,9 +154,9 @@ public class VtnPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblAutor;
+    private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblVersion;
     // End of variables declaration//GEN-END:variables

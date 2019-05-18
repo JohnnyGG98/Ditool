@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import md.Constantes;
 import md.Version;
@@ -20,10 +21,13 @@ public class VtnCTR {
     private final Version version;
     private final VtnPrincipal vtnPrin;
     private boolean aCorrecto = true;
+    private final ImageIcon icono;
 
     public VtnCTR(Version version, VtnPrincipal vtnPrin) {
+        this.icono = new ImageIcon(getClass().getResource("/img/update.png"));
         this.version = version;
         this.vtnPrin = vtnPrin;
+        this.vtnPrin.setIconImage(icono.getImage());
     }
 
     public void iniciar() {
@@ -48,8 +52,11 @@ public class VtnCTR {
                 try {
                     p.load(new FileReader(pv));
                     vtnPrin.getLblAutor().setText(p.getProperty(Constantes.V_AUTOR));
-                    vtnPrin.getLblNombre().setText(p.getProperty(Constantes.V_NOMBRE));
+                    vtnPrin.getLblNombre().setText(version.getNombreSinExtension(
+                            p.getProperty(Constantes.V_NOMBRE)));
                     vtnPrin.getLblVersion().setText(p.getProperty(Constantes.V_VERSION));
+                    //Ponemos la version del sistema en el titulo
+                    vtnPrin.setTitle(vtnPrin.getTitle() + " " + p.getProperty(Constantes.V_VERSION));
                 } catch (IOException e) {
                     System.out.println("No pudimos leer las propiedades de version: " + e.getMessage());
                 }
@@ -78,7 +85,7 @@ public class VtnCTR {
         if (pv.exists()) {
             if (comprobarRequisitos(p, pv)) {
                 if (compara(p, pv)) {
-                    JOptionPane.showMessageDialog(null, "Usted tiene la ultima version!");
+                    JOptionPane.showMessageDialog(null, "Esta instalada la ultima version del software.");
                     ejecutarPrograma();
                 } else {
                     //Aqui descargamos la versio nueva
@@ -95,6 +102,7 @@ public class VtnCTR {
     }
 
     public void crearVersion() {
+        vtnPrin.getLblFondo().setText("Descargando...");
         File pv = new File(Constantes.V_DIR);
         Properties p = new Properties();
         Descarga descarga = new Descarga(version);
@@ -185,7 +193,7 @@ public class VtnCTR {
             p.load(new FileReader(bd));
             String pNombre = version.getNombreSinExtension(p.getProperty(Constantes.V_NOMBRE));
             if (pNombre.contains(version.getNombre())) {
-                File va  = new File(pNombre + ".jar");
+                File va = new File(pNombre + ".jar");
                 if (va.exists()) {
                     va.delete();
                 }
