@@ -16,7 +16,7 @@ public class JDVersionCTR {
 
     private final JDVersion jd;
     private ArrayList<Version> versiones;
-    private final VersionBD ver;
+    private final VersionBD ver = VersionBD.single();
     private DefaultTableModel mdTbl;
     private int posFila;
 
@@ -24,7 +24,6 @@ public class JDVersionCTR {
         this.jd = new JDVersion(vtnPrin, false);
         jd.setLocationRelativeTo(vtnPrin);
         jd.setVisible(true);
-        this.ver = new VersionBD();
     }
 
     public void iniciar() {
@@ -91,14 +90,14 @@ public class JDVersionCTR {
     }
 
     private void clickIngresar() {
-        FrmVersionCTR ctr = new FrmVersionCTR(ver, this);
+        FrmVersionCTR ctr = new FrmVersionCTR(this);
         ctr.iniciar();
     }
 
     private void clickEditar() {
         posFila = jd.getTblVersiones().getSelectedRow();
         if (posFila >= 0) {
-            FrmVersionCTR ctr = new FrmVersionCTR(ver, this);
+            FrmVersionCTR ctr = new FrmVersionCTR(this);
             ctr.iniciar();
             ctr.editar(versiones.get(posFila).getId());
         }

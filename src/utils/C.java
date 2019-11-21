@@ -7,17 +7,15 @@ import java.io.File;
  * @author alumno
  */
 public class C {
-    
+
     //Modo del proyecto 
     public static final boolean M_DESARROLLO = true;
     // Driver de postgres
     public static final String DRIVER_POSTGRES = "org.postgresql.Driver";
     //Nombre de las propiedadesde la base de matos
-    public static final String BD_DATABASE = "database", 
-            BD_IP = "ip", 
-            BD_PUERTO = "port",
-            BD_USER = "user",
-            BD_PASS = "pass";
+    public static final String BD_DATABASE = "database",
+            BD_IP = "ip",
+            BD_PUERTO = "port";
     //Direccion de las propiedades de base de datos
     public static final String BD_DIR = "configuracion.properties";
     //Nombre de las propiedades la version

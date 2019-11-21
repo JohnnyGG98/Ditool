@@ -14,6 +14,15 @@ import utils.dependencias.CBD;
  */
 public class VersionBD extends CBD {
 
+    private static VersionBD VBD;
+
+    public static VersionBD single() {
+        if (VBD == null) {
+            VBD = new VersionBD();
+        }
+        return VBD;
+    }
+
     public boolean guardar(Version v) {
         String nsql = "INSERT INTO public.\"Versiones\"(usu_username,\n"
                 + "  version, nombre, url, notas)\n"
@@ -213,6 +222,43 @@ public class VersionBD extends CBD {
             CON.cerrarCon(ps);
         }
 
+        return v;
+    }
+
+    //Consultamos la ultima version de la base de datos:
+    public Version consultarUltimaVersion() {
+        Version v = null;
+        String sql = "SELECT \n"
+                + "id_version, \n"
+                + "usu_username, \n"
+                + "version,\n"
+                + "nombre, \n"
+                + "url, \n"
+                + "notas, \n"
+                + "fecha\n"
+                + "FROM public.\"Versiones\"\n"
+                + "WHERE version_activa = true\n"
+                + "ORDER BY id_version DESC limit 1;";
+        PreparedStatement ps = CON.getPS(sql);
+        if (ps != null) {
+            try {
+                ResultSet rs = ps.executeQuery();
+                v = new Version();
+                while (rs.next()) {
+                    v.setId(rs.getInt(1));
+                    v.setUsername(rs.getString(2));
+                    v.setVersion(rs.getString(3));
+                    v.setNombre(rs.getString(4));
+                    v.setUrl(rs.getString(5));
+                    v.setNotas(rs.getString(6));
+                    v.setFecha(rs.getTimestamp(7).toLocalDateTime());
+                }
+            } catch (SQLException e) {
+                System.out.println("No se pudo consultar la version: " + e.getMessage());
+            } finally {
+                CON.cerrarCon(ps);
+            }
+        }
         return v;
     }
 

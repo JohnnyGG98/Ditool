@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,11 +24,9 @@ public abstract class Utils {
         File bd = new File(C.BD_DIR);
         Properties p = new Properties();
         comprobarArchivo(bd, p);
-
         String ip = "";
         String port = "";
         String database = "";
-
         try {
             p.load(new FileReader(bd));
             ip = p.getProperty(C.BD_IP);
@@ -36,42 +35,15 @@ public abstract class Utils {
         } catch (IOException e) {
             System.out.println("No encontramos el archivo. " + e.getMessage());
         }
-
         return "jdbc:postgresql://" + ip + ":" + port + "/" + database;
     }
 
     public static String getUserBD() {
-        File bd = new File(C.BD_DIR);
-        Properties p = new Properties();
-        comprobarArchivo(bd, p);
-
-        String user = "";
-
-        try {
-            p.load(new FileReader(bd));
-            user = p.getProperty(C.BD_PUERTO);
-        } catch (IOException e) {
-            System.out.println("No encontramos el archivo. " + e.getMessage());
-        }
-
-        return user;
+        return "tsds";
     }
 
     public static String getPassBD() {
-        File bd = new File(C.BD_DIR);
-        Properties p = new Properties();
-        comprobarArchivo(bd, p);
-
-        String pass = "";
-
-        try {
-            p.load(new FileReader(bd));
-            pass = p.getProperty(C.BD_PASS);
-        } catch (IOException e) {
-            System.out.println("No encontramos el archivo. " + e.getMessage());
-        }
-
-        return pass;
+        return "TDSoftware158";
     }
 
     private static void comprobarArchivo(File bd, Properties p) {
@@ -102,17 +74,13 @@ public abstract class Utils {
             if (p.getProperty(C.BD_PUERTO) == null) {
                 todas = false;
             }
-
-            if (p.getProperty(C.BD_USER) == null) {
-                todas = false;
-            }
-
-            if (p.getProperty(C.BD_PASS) == null) {
-                todas = false;
-            }
-
         } catch (IOException e) {
-            System.out.println("Divertida: " + e.getMessage());
+            JOptionPane.showMessageDialog(
+                    null,
+                    "No tenemos todos los requisitos para "
+                    + "conectarnos a la base de datos.\n"
+                    + e.getMessage()
+            );
         }
         return todas;
     }
@@ -131,10 +99,11 @@ public abstract class Utils {
             p.setProperty(C.BD_IP, "localhost");
             p.setProperty(C.BD_DATABASE, "bd");
             p.setProperty(C.BD_PUERTO, "5432");
-            p.setProperty(C.BD_USER, "postgres");
-            p.setProperty(C.BD_PASS, "123");
-            p.store(fo, "Propiedades de la base de datos: \n"
-                    + "Modifiquelos para que se pueda conectarse a su base de datos: ");
+            p.store(
+                    fo, "Propiedades de la base de datos: \n"
+                    + "Modifiquelos para que se pueda "
+                    + "conectarse a su base de datos: "
+            );
             creado = true;
         } catch (FileNotFoundException e) {
             System.out.println("No podemos escribir el archivo: " + e.getMessage());

@@ -1,8 +1,8 @@
 package controller;
 
 import javax.swing.JOptionPane;
-import model.ConectarDB;
 import model.Version;
+import model.VersionBD;
 import view.VtnDitool;
 
 /**
@@ -21,10 +21,9 @@ public class PActualiza {
 
         VtnDitool vtnPrin = new VtnDitool();
         vtnPrin.setTitle("Ditool | Version instalada: ");
-        ConectarDB conecta = new ConectarDB("VERSION", "AZUL");
+        VersionBD VBD = VersionBD.single();
 
-        Version v = conecta.consultarUltimaVersion();
-
+        Version v = VBD.consultarUltimaVersion();
         if (v != null) {
             VtnDitoolCTR ctrVtn = new VtnDitoolCTR(
                     v,

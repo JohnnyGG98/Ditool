@@ -41,6 +41,8 @@ public class BD {
 
         try {
             Class.forName(C.DRIVER_POSTGRES);
+            System.out.println("URL: " + C.url);
+            System.out.println("Pass: " + C.pass);
             c = DriverManager.getConnection(C.url, C.user, C.pass);
         } catch (ClassNotFoundException e) {
             System.out.println("No pudimos conectarnos: " + e.getMessage());

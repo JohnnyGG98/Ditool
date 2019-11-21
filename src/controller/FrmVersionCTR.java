@@ -16,17 +16,13 @@ public class FrmVersionCTR {
 
     private final FrmVersion frmVersion;
     private final JDVersionCTR ctrVersion;
-    private final VersionBD ver;
+    private final VersionBD ver = VersionBD.single(); 
     private boolean editar = false;
     private int idVersion = 0;
 
-    public FrmVersionCTR(
-            VersionBD ver,
-            JDVersionCTR ctrVersion
-    ) {
+    public FrmVersionCTR(JDVersionCTR ctrVersion) {
         this.ctrVersion = ctrVersion;
         this.frmVersion = new FrmVersion(null, false);
-        this.ver = ver;
     }
 
     public void iniciar() {

@@ -45,7 +45,6 @@ public class Descarga {
             URLConnection conn = new URL(version.getUrl()).openConnection();
             conn.connect();
             todoBien = false;
-            JOptionPane.showMessageDialog(null, "La descarga va a comenzar...");
 
             InputStream i = conn.getInputStream();
             OutputStream o = new FileOutputStream(fil);
