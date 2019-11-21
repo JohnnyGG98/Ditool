@@ -1,9 +1,9 @@
-package ctr;
+package controller;
 
 import javax.swing.JOptionPane;
-import md.ConectarDB;
-import md.Version;
-import vtn.VtnPrincipal;
+import model.ConectarDB;
+import model.Version;
+import view.VtnDitool;
 
 /**
  *
@@ -19,21 +19,29 @@ public class PActualiza {
             iniciaEstilo("Nimbus");
         }
 
-        VtnPrincipal vtnPrin = new VtnPrincipal();
+        VtnDitool vtnPrin = new VtnDitool();
         vtnPrin.setTitle("Ditool | Version instalada: ");
         ConectarDB conecta = new ConectarDB("VERSION", "AZUL");
 
         Version v = conecta.consultarUltimaVersion();
 
         if (v != null) {
-            VtnCTR ctrVtn = new VtnCTR(v, vtnPrin);
+            VtnDitoolCTR ctrVtn = new VtnDitoolCTR(
+                    v,
+                    vtnPrin,
+                    false
+            );
             ctrVtn.iniciar();
         } else {
-            JOptionPane.showMessageDialog(vtnPrin, "Posiblemente no tengamos acceso a internet. \n"
-                    + "Verifique su conexion e intentelo de nuevo.");
+            JOptionPane.showMessageDialog(
+                    vtnPrin, "Posiblemente no tengamos acceso al servidor. \n"
+                    + "Verifique su conexion e intentelo nuevamente. \n"
+                    + "Debe contactar con el administrador de l"
+                    + "a base de datos o su proveedor de internet."
+            );
+            System.exit(0);
         }
 
-        System.exit(0);
     }
 
     public static boolean iniciaEstilo(String estilo) {

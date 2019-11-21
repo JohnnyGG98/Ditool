@@ -1,5 +1,6 @@
-package md;
+package model;
 
+import utils.C;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,7 +36,10 @@ public class ConectarDB {
 
     public PreparedStatement getPs(String nsql) {
         try {
-            PreparedStatement ps = ct.prepareStatement(nsql);
+            PreparedStatement ps = null;
+            if (ct != null) {
+                ps = ct.prepareStatement(nsql);
+            }
             return ps;
         } catch (SQLException e) {
             System.out.println("No se pudo preparar el statement. " + e.getMessage());
@@ -55,14 +59,16 @@ public class ConectarDB {
 
     public void cerrar(PreparedStatement ps) {
         try {
-            ps.getConnection().close();
+            if (ps != null) {
+                ps.getConnection().close();
+            }
         } catch (SQLException e) {
             System.out.println("No pudimos cerrar la conexion pls try again. " + e.getMessage());
         }
     }
 
     private String generarURL() {
-        File bd = new File(Constantes.BD_DIR);
+        File bd = new File(C.BD_DIR);
         Properties p = new Properties();
         if (!bd.exists()) {
             crearPropiedades(p, bd);
@@ -81,13 +87,13 @@ public class ConectarDB {
 
         try {
             p.load(new FileReader(bd));
-            ip = p.getProperty(Constantes.BD_IP);
-            port = p.getProperty(Constantes.BD_PUERTO);
-            database = p.getProperty(Constantes.BD_DATABASE);
+            ip = p.getProperty(C.BD_IP);
+            port = p.getProperty(C.BD_PUERTO);
+            database = p.getProperty(C.BD_DATABASE);
 
-            System.out.println("ip = " + p.getProperty(Constantes.BD_IP));
-            System.out.println("database = " + p.getProperty(Constantes.BD_DATABASE));
-            System.out.println("port = " + p.getProperty(Constantes.BD_PUERTO));
+            System.out.println("ip = " + p.getProperty(C.BD_IP));
+            System.out.println("database = " + p.getProperty(C.BD_DATABASE));
+            System.out.println("port = " + p.getProperty(C.BD_PUERTO));
         } catch (IOException e) {
             System.out.println("No encontramos el señor archivo. " + e.getMessage());
         }
@@ -99,15 +105,15 @@ public class ConectarDB {
         boolean todas = true;
         try {
             p.load(new FileReader(bd));
-            if (p.getProperty(Constantes.BD_DATABASE) == null) {
+            if (p.getProperty(C.BD_DATABASE) == null) {
                 todas = false;
             }
 
-            if (p.getProperty(Constantes.BD_IP) == null) {
+            if (p.getProperty(C.BD_IP) == null) {
                 todas = false;
             }
 
-            if (p.getProperty(Constantes.BD_PUERTO) == null) {
+            if (p.getProperty(C.BD_PUERTO) == null) {
                 todas = false;
             }
 

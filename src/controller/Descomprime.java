@@ -1,9 +1,9 @@
-package ctr;
+package controller;
 
 import java.io.File;
 import javax.swing.JOptionPane;
-import md.Constantes;
-import md.Version;
+import utils.C;
+import model.Version;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
@@ -25,7 +25,7 @@ public class Descomprime {
         ZipFile zf;
         try {
             zf = new ZipFile(zipFile);
-            zf.extractAll(Constantes.getDir());
+            zf.extractAll(C.getDir());
             eliminarZip(zipFile);
         } catch (ZipException ex) {
             System.out.println("No salio bien debemos informarlo: " + ex.getMessage());
@@ -51,7 +51,7 @@ public class Descomprime {
                 + "debera hacerlo de forma manual. \n"
                 + "Indicaciones: \n"
                 + "1. Debera extraer el .zip que se encuentra en \n"
-                + "" + Constantes.getDir() + "\n"
+                + "" + C.getDir() + "\n"
                 + "2. Despues de extraer el zip debera eliminarlo.");
     }
 

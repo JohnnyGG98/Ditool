@@ -1,4 +1,4 @@
-package ctr;
+package controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import javax.swing.JOptionPane;
-import md.Version;
+import model.Version;
 
 /**
  *
@@ -57,7 +57,6 @@ public class Descarga {
                     o.write(b);
                 }
             }
-            System.out.println("Terminamos de descargar");
 
             o.close();
             i.close();

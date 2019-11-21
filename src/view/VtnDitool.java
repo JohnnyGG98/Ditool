@@ -1,4 +1,4 @@
-package vtn;
+package view;
 
 import javax.swing.JLabel;
 
@@ -6,12 +6,12 @@ import javax.swing.JLabel;
  *
  * @author alumno
  */
-public class VtnPrincipal extends javax.swing.JFrame {
+public class VtnDitool extends javax.swing.JFrame {
 
     /**
      * Creates new form VtnPrincipal
      */
-    public VtnPrincipal() {
+    public VtnDitool() {
         initComponents();
     }
 
